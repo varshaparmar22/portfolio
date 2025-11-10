@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Varsha Parmar - AI/ML Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+    <div class="container">
+        <a href="index.html" id="home" class="logo">Varsha Parmar</a>
+        <div class="nav-links">
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </div>
+</nav>
+
+    <header id="hero" class="hero section">
+        <div class="container">
+            <h1>Varsha Parmar</h1>
+            <h2>AI/ML Engineer & AWS Certified Professional</h2>
+            <div class="hero-links">
+                <a href="https://github.com/varshaparmar22/My-Projects" target="_blank" class="social-link">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/varsha-parmar-b55782296/" target="_blank" class="social-link">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+                <a href="https://www.credly.com/badges/4a1fa7ec-83ec-431d-8cad-424c09fe6e33/" target="_blank" class="social-link">
+                    <i class="fas fa-certificate"></i> AWS Certified
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section id="projects" class="section" style="display: none; opacity: 0;">
+    <div class="container">
+        <h2 class="section-title">Projects</h2>
+        <div class="projects-grid">
+            <a href="#"   class="project-card" data-project="1"> 
+                <h3>Airtable Contractor Automation</h3>
+                <p>Built comprehensive multi-table Airtable system with Python automation scripts and LLM evaluation for candidate analysis.</p>
+                <div class="project-tags">
+                    <span>Python</span>
+                    <span>Airtable</span>
+                    <span>LLMs</span>
+                </div>
+            </a>
+            <a href="#"  class="project-card" data-project="2"> 
+                <h3>Financial RAG System</h3>
+                <p>Advanced RAG system using LangChain with OpenAI/Gemini embeddings and RAGAS evaluation framework.</p>
+                    <div class="project-tags">
+                        <span>LangChain</span>
+                        <span>RAG</span>
+                        <span>OpenAI</span>
+                    </div>
+                </a>
+            <a href="#"  class="project-card" data-project="3"> 
+                <h3>Healthcare AI Assistant</h3>
+                    <p>Medical assistant for anesthetic recommendations using Windsurf, LangChain, and OpenAI with Twilio integration.</p>
+                    <div class="project-tags">
+                        <span>AI/ML</span>
+                        <span>Healthcare</span>
+                        <span>Twilio</span>
+                    </div>
+                </a>
+                <a href="#" class="project-card" data-project="4">        
+                <h3>AI Gmail Extension</h3>
+                    <p>Chrome extension for Gmail automation with email summarization and response drafting features.</p>
+                    <div class="project-tags">
+                        <span>JavaScript</span>
+                        <span>Chrome API</span>
+                        <span>NLP</span>
+                    </div>
+            </a>
+
+            <!-- Add more project cards as needed -->
+        </div>
+    </div>
+</section>
+
+    <section id="contact" class="section contact-section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-methods">
+                    <a href="mailto:vparmarce@gmail.com" class="contact-link">
+                        <i class="fas fa-envelope"></i> vparmarce@gmail.com
+                    </a>
+                    <a href="tel:+918160756539" class="contact-link">
+                        <i class="fas fa-phone"></i> +91 8160756539
+                    </a>
+                    <a href="https://github.com/varshaparmar22/My-Projects" target="_blank" class="contact-link">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                    <a href="https://www.linkedin.com/in/varsha-parmar-b55782296/" target="_blank" class="contact-link">
+                        <i class="fab fa-linkedin"></i> LinkedIn
+                    </a>
+                </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Varsha Parmar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', async function(e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        
+        e.preventDefault();
+        
+        if (targetId.startsWith('#')) {
+            await showSection(targetId);
+            history.pushState(null, null, targetId);
+            updateActiveNavLink(targetId.substring(1));
+        }
+    });
+});
+    
+    // Handle browser back/forward buttons
+    window.addEventListener('popstate', () => {
+        const hash = window.location.hash || '#';
+        const heroSection = document.querySelector('.hero');
+        
+        if (hash === '#' || hash === '') {
+            // Show hero section and hide others
+            heroSection.style.display = 'block';
+            heroSection.style.opacity = '1';
+            document.querySelectorAll('section:not(.hero)').forEach(section => {
+                section.style.display = 'none';
+                section.style.opacity = '0';
+            });
+        } else {
+            // Show the target section and hide hero
+            const targetSection = document.querySelector(hash);
+            if (targetSection) {
+                heroSection.style.display = 'none';
+                heroSection.style.opacity = '0';
+                targetSection.style.display = 'block';
+                targetSection.style.opacity = '1';
+                updateActiveNavLink(hash.substring(1));
+            }
+        }
+    });
+    
+    // Initial state based on URL hash
+    if (window.location.hash) {
+        const targetSection = document.querySelector(window.location.hash);
+        const heroSection = document.querySelector('.hero');
+        if (targetSection) {
+            heroSection.style.display = 'none';
+            heroSection.style.opacity = '0';
+            targetSection.style.display = 'block';
+            targetSection.style.opacity = '1';
+            updateActiveNavLink(window.location.hash.substring(1));
+        }
+    }
+});
+
+// Function to update active nav link
+function updateActiveNavLink(sectionId) {
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${sectionId}`) {
+            link.classList.add('active');
+        }
+    });
+}
+
+// Update the home link handler
+document.getElementById('home').addEventListener('click', async function(e) {
+    e.preventDefault();
+    
+    const allSections = document.querySelectorAll('section:not(.hero)');
+    const heroSection = document.querySelector('.hero');
+    
+    // Use Promise.all to wait for all fade out animations to complete
+    await Promise.all(Array.from(allSections).map(section => {
+        return new Promise(resolve => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(10px)';
+            setTimeout(() => {
+                section.style.display = 'none';
+                resolve();
+            }, 300);
+        });
+    }));
+    
+    // Fade in hero section with a slight delay
+    heroSection.style.display = 'block';
+    heroSection.style.opacity = '0';
+    heroSection.style.transform = 'translateY(10px)';
+    
+    // Trigger reflow
+    void heroSection.offsetHeight;
+    
+    // Animate in
+    heroSection.style.opacity = '1';
+    heroSection.style.transform = 'translateY(0)';
+    
+    // Update URL and active nav links
+    history.pushState(null, null, ' ');
+    updateActiveNavLink('');
+    
+    // Smooth scroll to top
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+// Update the section transition function
+function showSection(targetId) {
+    return new Promise(resolve => {
+        const targetSection = document.querySelector(targetId);
+        if (!targetSection) return resolve();
+        
+        const heroSection = document.querySelector('.hero');
+        
+        // Hide hero section when showing projects/contact
+        if (targetId === '#projects' || targetId === '#contact') {
+            heroSection.style.opacity = '0';
+            heroSection.style.transform = 'translateY(-10px)';
+            setTimeout(() => {
+                heroSection.style.display = 'none';
+            }, 300);
+        } else {
+            heroSection.style.display = 'block';
+            heroSection.style.opacity = '1';
+            heroSection.style.transform = 'translateY(0)';
+        }
+        
+        // Hide all other sections
+        document.querySelectorAll('section:not(.hero)').forEach(section => {
+            if (section.id !== targetId.substring(1)) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(10px)';
+                setTimeout(() => {
+                    section.style.display = 'none';
+                }, 300);
+            }
+        });
+        
+        // Show target section
+        targetSection.style.display = 'block';
+        targetSection.style.opacity = '0';
+        targetSection.style.transform = 'translateY(10px)';
+        
+        // Trigger reflow
+        void targetSection.offsetHeight;
+        
+        // Animate in
+        targetSection.style.opacity = '1';
+        targetSection.style.transform = 'translateY(0)';
+        
+        resolve();
+    });
+}
+// Project loading functionality
+async function loadProjectContent(projectId) {
+    try {
+        const response = await fetch(`project-content-${projectId}.html`);
+        if (!response.ok) throw new Error('Project not found');
+        
+        const html = await response.text();
+        
+        // Create or get project container
+        let projectContainer = document.getElementById('project-container');
+        if (!projectContainer) {
+            projectContainer = document.createElement('div');
+            projectContainer.id = 'project-container';
+            document.body.appendChild(projectContainer);
+        }
+        
+        // Set the HTML content
+        projectContainer.innerHTML = html;
+        
+        // Add back button functionality
+        const backButton = projectContainer.querySelector('.back-button');
+        if (backButton) {
+            backButton.onclick = (e) => {
+                e.preventDefault();
+                projectContainer.style.opacity = '0';
+                setTimeout(() => {
+                    projectContainer.style.display = 'none';
+                    document.querySelector('.hero').style.display = 'block';
+                    setTimeout(() => {
+                        document.querySelector('.hero').style.opacity = '1';
+                    }, 50);
+                    history.pushState(null, '', ' ');
+                }, 300);
+            };
+        }
+        
+        // Show the project with animation
+        projectContainer.style.display = 'block';
+        projectContainer.style.opacity = '0';
+        setTimeout(() => {
+            projectContainer.style.opacity = '1';
+        }, 50);
+        
+        // Hide hero section
+        document.querySelector('.hero').style.opacity = '0';
+        setTimeout(() => {
+            document.querySelector('.hero').style.display = 'none';
+        }, 300);
+        
+    } catch (error) {
+        console.error('Error loading project:', error);
+        alert('Failed to load project. Please try again later.');
+    }
+}
+
+// Project card click handler
+document.addEventListener('click', async (e) => {
+    const projectCard = e.target.closest('.project-card');
+    if (projectCard) {
+        e.preventDefault();
+        const projectId = projectCard.getAttribute('data-project');
+        if (projectId) {
+            await loadProjectContent(projectId);
+            history.pushState({ project: projectId }, '', `#project-${projectId}`);
+        }
+    }
+});
+
+// Handle browser back/forward
+window.addEventListener('popstate', (e) => {
+    const projectContainer = document.getElementById('project-container');
+    if (window.location.hash.startsWith('#project-')) {
+        const projectId = window.location.hash.split('-')[1];
+        loadProjectContent(projectId);
+    } else if (projectContainer) {
+        projectContainer.style.opacity = '0';
+        setTimeout(() => {
+            projectContainer.style.display = 'none';
+            document.querySelector('.hero').style.display = 'block';
+            setTimeout(() => {
+                document.querySelector('.hero').style.opacity = '1';
+            }, 50);
+        }, 300);
+    }
+});
+
+// Initial load - check URL for project hash
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.hash.startsWith('#project-')) {
+        const projectId = window.location.hash.split('-')[1];
+        loadProjectContent(projectId);
+    }
+});
+    </script>
+</body>
+</html>
