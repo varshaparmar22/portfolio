@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Varsha Parmar - AI/ML Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <h1>Project Tester</h1>
+    <div id="project-container">
+        <h2>Loading project...</h2>
+    </div>
+    
+    <script>
+        // Load project content directly
+        const projectContent = `
+            <!-- Paste the content from project-content-1.html here -->
+            <div class="project-detail">
+    <a href="#" class="back-button" id="back-to-projects">
+        <i class="fas fa-arrow-left"></i> Back to Projects
+    </a>
+    
+    <h1>Airtable-Based Contractor Management and LLM Evaluation System</h1>
+    
+    <img src="images/airtable.png" alt="Mermaid Architecture Diagram" width="1200">
+    
+    <div class="project-content">
+        <h2>About the Project</h2>
+        <p>It involved designing and implementing a robust, serverless data model and automation system using Airtable as the primary database for managing contractor applications. The core goal was to create a structured input flow, automate data management (compression/decompression), implement multi-factor shortlisting rules, and integrate an external Large Language Model (LLM) for automated qualitative application review and enrichment.</p>
+        
+        <h2>Key Features and Architecture</h2>
+        <ul>
+            <li>1. Structured Data Model (Airtable Schema)
+A normalized database schema was established within Airtable, consisting of three linked tables plus two helper tables to capture application details and manage automation5.
+•	Applicants (Parent Table): Stores one row per applicant66. Key fields include: Applicant ID (primary), Compressed JSON, Shortlist Status, LLM Summary, LLM Score, and LLM Follow-Ups77.
+•	Child Tables (Linked): All child tables are linked back to Applicants by Applicant ID8.
+o	Personal Details (One-to-one link to Applicants)99.
+o	Work Experience (One-to-many link to Applicants)1010.
+o	Salary Preferences (One-to-one link to Applicants)1111.
+•	Helper Table: Shortlisted Leads (Auto-populated when shortlisting rules are met)121212.
+</li>
+<li>
+2. User Input and Form Flow
+To simulate a multi-table input flow, three separate Airtable forms were used (one per child table)13. Applicants are required to submit all three forms, each pre-filling or asking for the Applicant ID to ensure data linkage14.
+</li>
+<li>
+3. Data Compression and Normalization (Python)
+Two critical local Python scripts were developed to manage data efficiency and integrity15:
+•	JSON Compression Script: Gathers data from the three linked tables, builds a single JSON object (e.g., storing personal, experience, and salary details), and writes it to the Compressed JSON field16161616.
+•	JSON Decompression Script: Reads the Compressed JSON 17and performs an upsert of child-table records to reflect the JSON state 18181818, supporting necessary updates and edits to the normalized data19.
+</li>
+<li>
+4. Automated Lead Shortlisting
+An automation system evaluates applicants against defined, multi-factor criteria after the compression step20. If all criteria are met, a record is created in the Shortlisted Leads table21.
+•	Criteria:
+o	Experience: $\ge 4$ years total OR worked at a Tier-1 company (e.g., Google, Meta, OpenAI)22.
+o	Compensation: Preferred Rate $\le \$100$ USD/hour AND Availability $\ge 20$ hrs/week23.
+o	Location: In US, Canada, UK, Germany, or India24.
+•	Output: Populates the Score Reason field with a human-readable explanation25.
+</li>
+<li>
+5. LLM Evaluation and Enrichment Integration
+A robust qualitative review step was implemented by calling an external LLM endpoint26262626.
+•	Trigger: After Compressed JSON is written or updated2727.
+•	Security: Read API key securely from an Airtable Secret or environment variable (not hard-coded)2828.
+•	Prompt Engineering: Feeds the full JSON to the LLM and asks it to perform four specific tasks (Summarize, Rate, Flag Issues, Suggest Follow-ups)29292929.
+•	Robustness: Includes validation to log API call failures and implement exponential backoff for up to 3 retries3030.
+•	Structured Outputs: Writes to LLM Summary ($\le 75$ words), LLM Score (1-10), and LLM Follow-Ups (bullet list) fields on the Applicants table31313131.
+</li>
+        </ul>
+        
+        <h2>Technologies Used</h2>
+        <div class="project-tags">
+            <span>Automation/Logic: Local Python (Scripts)</span>
+            <span>LLM Integration: Gemini Endpoint</span>
+            <span>Data Handling: JSON, Airtable API</span>
+        </div>
+        
+        <!--<div class="project-links" style="margin-top: 2rem;">
+            <a href="https://github.com/yourusername/airtable-automation" class="button" target="_blank">
+                <i class="fab fa-github"></i> View on GitHub
+            </a>
+            <a href="https://airtable-automation-demo.com" class="button" target="_blank" style="margin-left: 1rem;">
+                <i class="fas fa-external-link-alt"></i> Live Demo
+            </a>
+        </div>-->
+    </div>
+</div>
+        `;
+        
+        document.getElementById('project-container').innerHTML = projectContent;
+    </script>
+</body>
+</html>

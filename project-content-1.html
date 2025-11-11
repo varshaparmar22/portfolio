@@ -3,38 +3,69 @@
         <i class="fas fa-arrow-left"></i> Back to Projects
     </a>
     
-    <h1>Airtable Contractor Automation</h1>
-    <p class="project-meta">Technologies: <span>Python, Airtable, LLMs</span></p>
+    <h1>Airtable-Based Contractor Management and LLM Evaluation System</h1>
     
-    <img src="https://via.placeholder.com/1200x600" alt="Airtable Automation Screenshot">
+    <img src="images/airtable.png" alt="Mermaid Architecture Diagram" width="1200">
     
     <div class="project-content">
         <h2>About the Project</h2>
-        <p>Built a comprehensive multi-table Airtable system with Python automation scripts and LLM evaluation for candidate analysis.</p>
+        <p>It involved designing and implementing a robust, serverless data model and automation system using Airtable as the primary database for managing contractor applications. The core goal was to create a structured input flow, automate data management (compression/decompression), implement multi-factor shortlisting rules, and integrate an external Large Language Model (LLM) for automated qualitative application review and enrichment.</p>
         
-        <h2>Features</h2>
+        <h2>Key Features and Architecture</h2>
         <ul>
-            <li>Automated candidate evaluation using LLMs</li>
-            <li>Multi-table relational database in Airtable</li>
-            <li>Python scripts for data processing</li>
-            <li>Automated reporting and notifications</li>
+            <li>1. Structured Data Model (Airtable Schema)
+A normalized database schema was established within Airtable, consisting of three linked tables plus two helper tables to capture application details and manage automation5.
+•	Applicants (Parent Table): Stores one row per applicant66. Key fields include: Applicant ID (primary), Compressed JSON, Shortlist Status, LLM Summary, LLM Score, and LLM Follow-Ups77.
+•	Child Tables (Linked): All child tables are linked back to Applicants by Applicant ID8.
+o	Personal Details (One-to-one link to Applicants).
+o	Work Experience (One-to-many link to Applicants).
+o	Salary Preferences (One-to-one link to Applicants).
+•	Helper Table: Shortlisted Leads (Auto-populated when shortlisting rules are met)121212.
+</li>
+<li>
+2. User Input and Form Flow
+To simulate a multi-table input flow, three separate Airtable forms were used (one per child table). Applicants are required to submit all three forms, each pre-filling or asking for the Applicant ID to ensure data linkage.
+</li>
+<li>
+3. Data Compression and Normalization (Python)
+Two critical local Python scripts were developed to manage data efficiency and integrity:
+•	JSON Compression Script: Gathers data from the three linked tables, builds a single JSON object (e.g., storing personal, experience, and salary details), and writes it to the Compressed JSON field.
+•	JSON Decompression Script: Reads the Compressed JSON and performs an upsert of child-table records to reflect the JSON state, supporting necessary updates and edits to the normalized data.
+</li>
+<li>
+4. Automated Lead Shortlisting
+An automation system evaluates applicants against defined, multi-factor criteria after the compression step. If all criteria are met, a record is created in the Shortlisted Leads table.
+•	Criteria:
+o	Experience: $\ge 4$ years total OR worked at a Tier-1 company (e.g., Google, Meta, OpenAI).
+o	Compensation: Preferred Rate $\le \$100$ USD/hour AND Availability $\ge 20$ hrs/week.
+o	Location: In US, Canada, UK, Germany, or India.
+•	Output: Populates the Score Reason field with a human-readable explanation.
+</li>
+<li>
+5. LLM Evaluation and Enrichment Integration
+A robust qualitative review step was implemented by calling an external LLM endpoint26262626.
+•	Trigger: After Compressed JSON is written or updated.
+•	Security: Read API key securely from an Airtable Secret or environment variable (not hard-coded).
+•	Prompt Engineering: Feeds the full JSON to the LLM and asks it to perform four specific tasks (Summarize, Rate, Flag Issues, Suggest Follow-ups).
+•	Robustness: Includes validation to log API call failures and implement exponential backoff for up to 3 retries.
+•	Structured Outputs: Writes to LLM Summary ($\le 75$ words), LLM Score (1-10), and LLM Follow-Ups (bullet list) fields on the Applicants table.
+</li>
         </ul>
         
         <h2>Technologies Used</h2>
         <div class="project-tags">
-            <span>Python</span>
-            <span>Airtable API</span>
-            <span>OpenAI API</span>
-            <span>Pandas</span>
+            <span>Automation/Logic: Local Python (Scripts)</span>
+            <span>LLM Integration: Gemini Endpoint</span>
+            <span>Data Handling: JSON, Airtable API</span>
         </div>
         
-        <div class="project-links" style="margin-top: 2rem;">
+        <!--<div class="project-links" style="margin-top: 2rem;">
             <a href="https://github.com/yourusername/airtable-automation" class="button" target="_blank">
                 <i class="fab fa-github"></i> View on GitHub
             </a>
             <a href="https://airtable-automation-demo.com" class="button" target="_blank" style="margin-left: 1rem;">
                 <i class="fas fa-external-link-alt"></i> Live Demo
             </a>
-        </div>
+        </div>-->
     </div>
 </div>
