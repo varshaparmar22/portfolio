@@ -154,6 +154,10 @@
 
                         const result = await res.json();
                         alert(result.message);
+
+                        // If there's a message field, show it dynamically
+                        if (result.message) showMessage(result.message, 'success');
+                        else if (result.error) showMessage(result.error, 'error');
                     });
                 </script>
 
@@ -417,12 +421,7 @@
             }
         });
 
-        // Parse JSON response
-        const data = await response.json();
-
-        // If there's a message field, show it dynamically
-        if (data.message) showMessage(data.message, 'success');
-        else if (data.error) showMessage(data.error, 'error');
+        
 
         // Show message box dynamically
         function showMessage(msg, type = 'success') {
