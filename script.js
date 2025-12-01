@@ -117,6 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 async function back_to_projects() {
-    window.location.href = "index.html";
+    window.location.href = window.location.origin+"#projects";
     window.location.hash = "projects";    
 }
