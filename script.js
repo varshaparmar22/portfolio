@@ -118,5 +118,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function back_to_projects() {
     window.location.href = "https://dysi4rqc9dbbx.cloudfront.net/#projects";
-    window.location.hash = "projects";    
 }
