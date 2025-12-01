@@ -115,3 +115,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.add('loaded');
     });
 });
+
+async function back_to_projects() {
+    window.location.href = "index.html";
+    window.location.hash = "projects";    
+}
