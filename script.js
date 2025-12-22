@@ -1,25 +1,20 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    // Handle URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const showSection = urlParams.get('show');
     
-    // Hide hero and show projects when show=projects is in the URL
-    if (showSection === 'projects') {
-        const hero = document.getElementById('hero');
-        const projectsSection = document.getElementById('projects');
+    if (showSection === 'projects' || window.location.hash === '#projects') {
+        // Add class to body to trigger the CSS rules
+        document.body.classList.add('projects-visible');
         
-        if (hero) {
-            hero.classList.add('hidden');
-        }
-        
-        if (projectsSection) {
-            projectsSection.classList.remove('hidden');
-            projectsSection.style.opacity = '1';
-            // Small timeout to ensure the element is visible before scrolling
-            setTimeout(() => {
+        // Scroll to projects section after a small delay
+        setTimeout(() => {
+            const projectsSection = document.getElementById('projects');
+            if (projectsSection) {
                 projectsSection.scrollIntoView({ behavior: 'smooth' });
-            }, 50);
-        }
+            }
+        }, 100);
     }
 
     // Mobile menu toggle
@@ -151,9 +146,10 @@ document.addEventListener('click', function(e) {
         }
     }
 });
-
+// Update the back_to_projects function
 function back_to_projects() {
-    // Clear any existing URL parameters and hash
-    const cleanUrl = window.location.href.split('?')[0].split('#')[0];
-    window.location.href = `${cleanUrl}?show=projects#projects`;
+    // Get the base URL without parameters or hash
+    const baseUrl = window.location.origin + window.location.pathname;
+    // Navigate to the clean URL with the show=projects parameter and hash
+    window.location.href = `${baseUrl}?show=projects#projects`;
 }

@@ -600,3 +600,15 @@ section {
 #projects.hidden {
     display: none !important;
 }
+
+/* Add this to your styles.css */
+/* Hide hero section when body has projects-visible class */
+body.projects-visible #hero {
+    display: none !important;
+}
+
+/* Ensure projects section is visible */
+body.projects-visible #projects {
+    display: block !important;
+    opacity: 1 !important;
+}
