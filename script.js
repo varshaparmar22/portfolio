@@ -3,19 +3,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const showSection = urlParams.get('show');
     
+    // Hide hero and show projects when show=projects is in the URL
     if (showSection === 'projects') {
-        // Hide hero section
         const hero = document.getElementById('hero');
+        const projectsSection = document.getElementById('projects');
+        
         if (hero) {
-            hero.style.display = 'none';
+            hero.classList.add('hidden');
         }
         
-        // Show projects section
-        const projectsSection = document.getElementById('projects');
         if (projectsSection) {
-            projectsSection.style.display = 'block';
+            projectsSection.classList.remove('hidden');
             projectsSection.style.opacity = '1';
-            projectsSection.scrollIntoView({ behavior: 'smooth' });
+            // Small timeout to ensure the element is visible before scrolling
+            setTimeout(() => {
+                projectsSection.scrollIntoView({ behavior: 'smooth' });
+            }, 50);
         }
     }
 
@@ -138,28 +141,19 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// Add this code after the existing DOMContentLoaded event listener
 document.addEventListener('click', function(e) {
-    // Check if the clicked element or its parent has the project-card class
     const projectCard = e.target.closest('.project-card');
     if (projectCard) {
         e.preventDefault();
-        
-        // Get the project ID from the card's data attribute or other identifier
-        const projectId = projectCard.getAttribute('data-project-id') || 
-                         projectCard.closest('[data-project-id]')?.getAttribute('data-project-id');
-        
+        const projectId = projectCard.getAttribute('data-project-id');
         if (projectId) {
-            // Store the current scroll position if needed
-            sessionStorage.setItem('scrollPosition', window.scrollY);
-            
-            // Navigate to the project content page with the from=projects parameter
             window.location.href = `project-content-${projectId}.html?from=projects`;
         }
     }
 });
 
-// Update the back_to_projects function to maintain consistency
 function back_to_projects() {
-    window.location.href = "index.html?show=projects#projects";
+    // Clear any existing URL parameters and hash
+    const cleanUrl = window.location.href.split('?')[0].split('#')[0];
+    window.location.href = `${cleanUrl}?show=projects#projects`;
 }

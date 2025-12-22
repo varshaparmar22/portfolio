@@ -591,3 +591,12 @@ section {
     display: block;
     opacity: 1;
 }
+
+/* Add this to your styles.css */
+#hero.hidden {
+    display: none !important;
+}
+
+#projects.hidden {
+    display: none !important;
+}
