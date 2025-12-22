@@ -19,7 +19,7 @@
         <div class="container">
             <a href="index.html" id="home" class="logo">Varsha Parmar</a>
             <div class="nav-links">
-                <a href="#projects">Projects</a>
+                <a href="#projects">Projects</a> 
                 <a href="#contact">Contact</a>
                 <a href="#email-me">Email Me</a>
             </div>
@@ -48,7 +48,10 @@
             </div>
         </div>
     </header>
-
+    <!-- Project Detail Container (STATIC) -->
+    <div id="project-container" style="display:none; opacity:0;">
+        <!-- project-content-X.html will be injected here -->
+    </div>
     <section id="projects" class="section" style="display: none; opacity: 0;">
         <div class="container">
             <h2 class="section-title">Projects</h2>
@@ -145,7 +148,7 @@
         <div class="container">
             <br />
             <h2 class="section-title">Send me direct Mail</h2>
-            <div class="contact-methods">
+            <div class="contact-methods-email-me">
                 <form id="contact-form">
                     <input type="text" id="name" placeholder="Your Name" required><br>
                     <input type="email" id="email" placeholder="Your Email" required><br>
@@ -183,12 +186,18 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2024 Varsha Parmar. All rights reserved.</p>
+            <p>&copy; 2025 Varsha Parmar. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
+            if (window.location.hash.startsWith('#project-')) {
+                const projectId = window.location.hash.split('-')[1];
+                loadProjectContent(projectId);
+            }
+
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', async function (e) {
                     const targetId = this.getAttribute('href');
@@ -256,9 +265,10 @@
 
         // Update the home link handler
         document.getElementById('home').addEventListener('click', async function (e) {
+            hideProjectContainer();
             e.preventDefault();
 
-            const allSections = document.querySelectorAll('section:not(.hero)');
+            const allSections = document.querySelectorAll('section:not(.hero):not(.navbar)');
             const heroSection = document.querySelector('.hero');
 
             // Use Promise.all to wait for all fade out animations to complete
@@ -298,7 +308,9 @@
 
         // Update the section transition function
         function showSection(targetId) {
+            
             return new Promise(resolve => {
+                hideProjectContainer();
                 const targetSection = document.querySelector(targetId);
                 if (!targetSection) return resolve();
 
@@ -318,7 +330,7 @@
                 }
 
                 // Hide all other sections
-                document.querySelectorAll('section:not(.hero)').forEach(section => {
+                document.querySelectorAll('section:not(.hero):not(.navbar)').forEach(section => {
                     if (section.id !== targetId.substring(1)) {
                         section.style.opacity = '0';
                         section.style.transform = 'translateY(10px)';
@@ -350,47 +362,21 @@
                 if (!response.ok) throw new Error('Project not found');
 
                 const html = await response.text();
-
-                // Create or get project container
-                let projectContainer = document.getElementById('project-container');
-                if (!projectContainer) {
-                    projectContainer = document.createElement('div');
-                    projectContainer.id = 'project-container';
-                    document.body.appendChild(projectContainer);
-                }
-
+                projectContainer = document.getElementById('project-container');
                 // Set the HTML content
                 projectContainer.innerHTML = html;
+                // Hide hero & all sections completely (remove from layout)
+                document.querySelectorAll('.hero, .section').forEach(el => {
+                    el.style.display = 'none';
+                    el.style.opacity = '0';
+                });
 
-                // Add back button functionality
-                const backButton = projectContainer.querySelector('.back-button');
-                if (backButton) {
-                    backButton.onclick = (e) => {
-                        e.preventDefault();
-                        projectContainer.style.opacity = '0';
-                        setTimeout(() => {
-                            projectContainer.style.display = 'none';
-                            document.querySelector('.hero').style.display = 'block';
-                            setTimeout(() => {
-                                document.querySelector('.hero').style.opacity = '1';
-                            }, 50);
-                            history.pushState(null, '', ' ');
-                        }, 300);
-                    };
-                }
-
-                // Show the project with animation
                 projectContainer.style.display = 'block';
-                projectContainer.style.opacity = '0';
-                setTimeout(() => {
-                    projectContainer.style.opacity = '1';
-                }, 50);
 
-                // Hide hero section
-                document.querySelector('.hero').style.opacity = '0';
-                setTimeout(() => {
-                    document.querySelector('.hero').style.display = 'none';
-                }, 300);
+                // animate
+                requestAnimationFrame(() => {
+                    projectContainer.style.opacity = '1';
+                });
 
             } catch (error) {
                 console.error('Error loading project:', error);
@@ -412,30 +398,19 @@
         });
 
         // Handle browser back/forward
-        window.addEventListener('popstate', (e) => {
-            const projectContainer = document.getElementById('project-container');
-            if (window.location.hash.startsWith('#project-')) {
-                const projectId = window.location.hash.split('-')[1];
-                loadProjectContent(projectId);
-            } else if (projectContainer) {
-                projectContainer.style.opacity = '0';
-                setTimeout(() => {
-                    projectContainer.style.display = 'none';
-                    document.querySelector('.hero').style.display = 'block';
-                    setTimeout(() => {
-                        document.querySelector('.hero').style.opacity = '1';
-                    }, 50);
-                }, 300);
-            }
-        });
+        window.addEventListener('popstate', () => {
+        const projectContainer = document.getElementById('project-container');
 
-        // Initial load - check URL for project hash
-        document.addEventListener('DOMContentLoaded', () => {
-            if (window.location.hash.startsWith('#project-')) {
-                const projectId = window.location.hash.split('-')[1];
-                loadProjectContent(projectId);
-            }
-        });
+        if (window.location.hash.startsWith('#project-')) {
+            const projectId = window.location.hash.split('-')[1];
+            loadProjectContent(projectId);
+        } else {
+            hideProjectContainer();
+        }
+    });
+
+
+            
 
         
 
@@ -460,6 +435,17 @@
 
             // Auto-hide after 5s
             setTimeout(() => box.classList.remove('show'), 5000);
+        }
+        
+        function hideProjectContainer() {
+            const pc = document.getElementById('project-container');
+            if (!pc) return;
+
+            pc.style.opacity = '0';
+            setTimeout(() => {
+                pc.style.display = 'none';
+                pc.innerHTML = ''; // optional: clear old project
+            }, 300);
         }
 
         // Close button handler
