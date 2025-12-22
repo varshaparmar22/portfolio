@@ -113,9 +113,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add loading animation
     window.addEventListener('load', function() {
         document.body.classList.add('loaded');
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        if(urlParams.get('list'))
+        {
+            alert("yes")
+        }
+
     });
 });
 
 async function back_to_projects() {
-    window.location.href = "https://dysi4rqc9dbbx.cloudfront.net/#projects";
+    window.location.href = "https://dysi4rqc9dbbx.cloudfront.net/?list=true";
 }
