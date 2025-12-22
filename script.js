@@ -1,4 +1,24 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const showSection = urlParams.get('show');
+    
+    if (showSection === 'projects') {
+        // Hide hero section
+        const hero = document.getElementById('hero');
+        if (hero) {
+            hero.style.display = 'none';
+        }
+        
+        // Show projects section
+        const projectsSection = document.getElementById('projects');
+        if (projectsSection) {
+            projectsSection.style.display = 'block';
+            projectsSection.style.opacity = '1';
+            projectsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
     // Mobile menu toggle
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
@@ -113,16 +133,33 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add loading animation
     window.addEventListener('load', function() {
         document.body.classList.add('loaded');
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        if(urlParams.get('list'))
-        {
-            alert("yes")
-        }
 
     });
 });
 
-async function back_to_projects() {
-    window.location.href = "https://dysi4rqc9dbbx.cloudfront.net/?list=true";
+
+// Add this code after the existing DOMContentLoaded event listener
+document.addEventListener('click', function(e) {
+    // Check if the clicked element or its parent has the project-card class
+    const projectCard = e.target.closest('.project-card');
+    if (projectCard) {
+        e.preventDefault();
+        
+        // Get the project ID from the card's data attribute or other identifier
+        const projectId = projectCard.getAttribute('data-project-id') || 
+                         projectCard.closest('[data-project-id]')?.getAttribute('data-project-id');
+        
+        if (projectId) {
+            // Store the current scroll position if needed
+            sessionStorage.setItem('scrollPosition', window.scrollY);
+            
+            // Navigate to the project content page with the from=projects parameter
+            window.location.href = `project-content-${projectId}.html?from=projects`;
+        }
+    }
+});
+
+// Update the back_to_projects function to maintain consistency
+function back_to_projects() {
+    window.location.href = "index.html?show=projects#projects";
 }
