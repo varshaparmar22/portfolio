@@ -9,7 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="styles.css"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <link rel="stylesheet" href="styles.css">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 </head>
@@ -19,17 +20,17 @@
         <div class="container">
             <a href="index.html" id="home" class="logo">Varsha Parmar</a>
             <div class="nav-links">
-                <a href="#projects">Projects</a> 
+                <a href="#projects">Projects</a>
                 <a href="#contact">Contact</a>
                 <a href="#email-me">Email Me</a>
             </div>
         </div>
     </nav>
     <!-- Hidden message box -->
-<div id="message-box">
-  <button class="close-btn">&times;</button>
-  <span id="message-text"></span>
-</div>
+    <div id="message-box">
+        <button class="close-btn">&times;</button>
+        <span id="message-text"></span>
+    </div>
     <header id="hero" class="hero section">
         <div class="container">
             <h1>Varsha Parmar </h1>
@@ -57,10 +58,26 @@
     <section id="projects" class="section" style="display: none; opacity: 0;">
         <div class="container">
             <h2 class="section-title">Projects</h2>
-            <div class="projects-grid">                
+            <div class="projects-grid">
+                <a href="#" class="project-card" data-project="4">
+                    <h3>Serverless RAG with Cognito</h3>
+                    <p>A serverless RAG chatbot powered by AWS Bedrock and Pinecone, featuring secure authentication via
+                        Cognito and seamless document-based knowledge retrieval, all deployed with Terraform for
+                        infrastructure as code.</p>
+                    <div class="project-tags">
+                        <span>Bedrock</span>
+                        <span>Cognito</span>
+                        <span>Secret Manager</span>
+                        <span>API Gateway</span>
+                        <span>Lambda</span>
+                        <span>PineCone</span>
+                    </div>
+                </a>
                 <a href="#" class="project-card" data-project="2" data-project-id="2">
                     <h3>Financial RAG System</h3>
-                    <p>Built a multilingual RAG pipeline that analyzes Apple’s financial reports using LangChain, Qdrant, and OpenAI embeddings. The system provides accurate financial Q&A with reranking and RAGAS evaluation, delivered through a clean, interactive Streamlit interface.
+                    <p>Built a multilingual RAG pipeline that analyzes Apple’s financial reports using LangChain,
+                        Qdrant, and OpenAI embeddings. The system provides accurate financial Q&A with reranking and
+                        RAGAS evaluation, delivered through a clean, interactive Streamlit interface.
                     </p>
                     <div class="project-tags">
                         <span>LangChain</span>
@@ -71,9 +88,11 @@
                         <span>Streamlit</span>
                     </div>
                 </a>
-                <a href="#"  class="project-card" data-project="3" data-project-id="3"> 
-                <h3>Note-App - Serverless Web Application</h3>
-                    <p>Note-App is a secure, serverless note-taking web app built on AWS using S3, API Gateway, Lambda, Cognito, and DynamoDB. It lets users create, edit, and manage notes seamlessly with fast performance and zero server maintenance.</p>
+                <a href="#" class="project-card" data-project="3" data-project-id="3">
+                    <h3>Note-App - Serverless Web Application</h3>
+                    <p>Note-App is a secure, serverless note-taking web app built on AWS using S3, API Gateway, Lambda,
+                        Cognito, and DynamoDB. It lets users create, edit, and manage notes seamlessly with fast
+                        performance and zero server maintenance.</p>
                     <div class="project-tags">
                         <span>S3</span>
                         <span>API Gateway</span>
@@ -86,15 +105,7 @@
                         <span>CloudFront</span>
                     </div>
                 </a>
-                <!--<a href="#" class="project-card" data-project="4">        
-                <h3>AI Gmail Extension</h3>
-                    <p>Chrome extension for Gmail automation with email summarization and response drafting features.</p>
-                    <div class="project-tags">
-                        <span>JavaScript</span>
-                        <span>Chrome API</span>
-                        <span>NLP</span>
-                    </div>
-            </a> -->
+
                 <a href="#" class="project-card" data-project="5" data-project-id="5">
                     <h3>AWS Cloud Portfolio - Automated Static Website Deployment (CI/CD + CloudFront)</h3>
                     <p>Designed and implemented a fully automated static website deployment pipeline using AWS native
@@ -310,7 +321,7 @@
 
         // Update the section transition function
         function showSection(targetId) {
-            
+
             return new Promise(resolve => {
                 hideProjectContainer();
                 const targetSection = document.querySelector(targetId);
@@ -401,20 +412,20 @@
 
         // Handle browser back/forward
         window.addEventListener('popstate', () => {
-        const projectContainer = document.getElementById('project-container');
+            const projectContainer = document.getElementById('project-container');
 
-        if (window.location.hash.startsWith('#project-')) {
-            const projectId = window.location.hash.split('-')[1];
-            loadProjectContent(projectId);
-        } else {
-            hideProjectContainer();
-        }
-    });
+            if (window.location.hash.startsWith('#project-')) {
+                const projectId = window.location.hash.split('-')[1];
+                loadProjectContent(projectId);
+            } else {
+                hideProjectContainer();
+            }
+        });
 
 
-            
 
-        
+
+
 
         // Show message box dynamically
         function showMessage(msg, type = 'success') {
@@ -438,7 +449,7 @@
             // Auto-hide after 5s
             setTimeout(() => box.classList.remove('show'), 5000);
         }
-        
+
         function hideProjectContainer() {
             const pc = document.getElementById('project-container');
             if (!pc) return;
